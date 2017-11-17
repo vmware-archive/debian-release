@@ -1,0 +1,51 @@
+################################################################################
+## Resources
+################################################################################
+resources:
+- name: gpdb-release
+  type: git
+  source:
+    uri: {{gpdb-git-remote}}
+    tag: ((gpdb-tag))
+
+- name: gporca-release
+  type: git
+  source:
+    uri: {{gporca-git-remote}}
+    tag: ((gpdb-tag))
+
+- name: debian-release
+  type: git
+  source:
+    branch: pipeline-for-ppa
+    uri: https://github.com/greenplum-db/debian-release.git
+
+- name: ubuntu
+  type: docker-image
+  source:
+    repository: pivotaldata/ubuntu
+    tag: '16.04'
+
+################################################################################
+## Jobs
+################################################################################
+
+jobs:
+
+- name: ppa-debian-release
+  plan:
+  - aggregate:
+    - get: gpdb
+      resource: gpdb-release
+    - get: gporca
+      resource: gporca-release
+    - get: debian-release
+    - get: ubuntu
+  - task: ppa-debian-release
+    file: debian-release/concourse/tasks/ppa-debian-release.yml
+    image: ubuntu
+    params:
+      PPA_REPO: ((ppa-repository))
+      GPG_PRIVATE_KEY: ((gpg-private-key))
+      GPDB_TAG: ((gpdb-tag))
+      RELEASE_MESSAGE: ((release-message))

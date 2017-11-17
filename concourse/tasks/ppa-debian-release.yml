@@ -1,0 +1,13 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: pivotaldata/ubuntu
+    tag: '16.04'
+inputs:
+  - name: gpdb
+  - name: gporca
+  - name: debian-release
+
+run:
+  path: debian-release/concourse/scripts/ppa-debian-release.bash
