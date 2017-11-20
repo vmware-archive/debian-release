@@ -13,9 +13,9 @@ all our current community contributors and are really interested in
 all new potential contributions. For the Greenplum Database community
 no contribution is too small, we encourage all types of contributions.
 
-## Debian Packaging
+## Debian Source and Binary Packaging
 
-This documentation assumes that you run the following commands on an Ubuntu platform and has been tested on Xenial 16.04.
+This documentation assumes that you run the following commands on an Ubuntu platform, and has been tested on Xenial 16.04.
 
 Note: This debian binary install will only copy the necessary files but does not initialize the cluster.
 
@@ -48,7 +48,7 @@ popd
 ```
 
 --------------------------------------------------------------------------------
-### Debian Packaging local
+### Debian Packaging
 Follow these steps to create a debian package in your local environment.
 
 #### Download build dependencies
@@ -62,7 +62,7 @@ pushd gpdb
 popd
 ```
 
-#### Creating a Greenplum debian package
+#### Creating a binary Greenplum debian package
 
 Use `debuild` utility to create greenplum debian binary
 
@@ -74,8 +74,8 @@ popd
 --------------------------------------------------------------------------------
 ### Debian Packaging in PPA
 
-Follow these steps to create a debian package in Launchpad PPA.
-Greenplum database only support 64 bit architectures. Hence, we can only see amd64 builds in PPA.
+Follow these steps to create a debian package in Launchpad Personal Packaging Archive (PPA).
+(Note: the Greenplum database only support 64 bit architectures in the PPA builds.)
 
 #### Create a Release in `changelog`
 
@@ -95,7 +95,7 @@ tar czf <packagename_version>.orig.tar.gz gpdb
 Create a source.changes file to upload to PPA repo using `debuild` utility.
 
 Make sure you imported your GPG private key to sign the `source.changes` before
-running the following.
+running the following. (See [PPA info](https://help.launchpad.net/YourAccount/ImportingYourPGPKey) about creating a GPG key.)
 
 ```bash
 pushd gpdb
@@ -135,7 +135,7 @@ echo $GPHOME
 # server is NOT running yet--you'll need to configure the cluster, etc.
 ```
 
-#### Downloading source
+#### Downloading source build from the PPA
 
 ```bash
 # if you are on a macos or platform other than debian, docker can help:
