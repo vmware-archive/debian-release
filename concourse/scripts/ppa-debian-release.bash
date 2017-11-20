@@ -9,22 +9,30 @@ set -x
 apt-get update
 apt-get install -y software-properties-common \
                    debmake \
-                   equivs
+                   equivs \
+                   git
 
-cp -R gporca/ gpdb/
-cp -R debian-release/debian gpdb/
+# Regex to capture required gporca version and download gporca source
+ORCA_TAG=$(grep -Po 'v\d+.\d+.\d+' gpdb/depends/conanfile_orca.txt)
+git clone --branch ${ORCA_TAG} https://github.com/greenplum-db/gporca.git gpdb/gporca
 
+mv debian-release/debian gpdb/
+
+# Create a changelog
+GPDB_VERSION=$(gpdb/getversion --short)
 pushd gpdb
-    dch --create -M --package greenplum-db-oss -v ${GPDB_TAG}  "${RELEASE_MESSAGE}"
+    dch --create -M --package greenplum-db-oss -v ${GPDB_VERSION}  "${RELEASE_MESSAGE}"
     dch -M -r "ignored message"
 popd
 
-tar czf greenplum-db-oss_${GPDB_TAG}.orig.tar.gz gpdb
+tar czf greenplum-db-oss_${GPDB_VERSION}.orig.tar.gz gpdb
 
+# Generate source.changes file
 pushd gpdb
   debuild -S -sa
 popd
 
-dput ${PPA_REPO} greenplum-db-oss_${GPDB_TAG}_source.changes >/dev/null
+# Upload source.changes and source.tar.gz to PPA repository
+dput ${PPA_REPO} greenplum-db-oss_${GPDB_VERSION}_source.changes >/dev/null
 
 echo "Done Upload"

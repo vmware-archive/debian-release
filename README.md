@@ -85,6 +85,9 @@ pushd gpdb
 popd
 ```
 
+NOTE: if the same source must be re-released, the way to do this is to modify the version number. A common way to re-release with new version number would be add this "-i" here:
+# dch -i
+
 #### Create a tar ball of the source code
 ```bash
 tar czf <packagename_version>.orig.tar.gz gpdb
@@ -135,7 +138,7 @@ echo $GPHOME
 # server is NOT running yet--you'll need to configure the cluster, etc.
 ```
 
-#### Downloading source build from the PPA
+#### Using apt-get to download source
 
 ```bash
 # if you are on a macos or platform other than debian, docker can help:
