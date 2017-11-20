@@ -6,7 +6,6 @@ image_resource:
     tag: '16.04'
 inputs:
   - name: gpdb
-  - name: gporca
   - name: debian-release
 
 run:
