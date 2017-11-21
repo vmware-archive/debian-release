@@ -18,6 +18,11 @@ git clone --branch ${ORCA_TAG} https://github.com/greenplum-db/gporca.git gpdb/g
 
 mv debian-release/debian gpdb/
 
+# adapt Maintainer to correspond to the production or test account
+if [ ${PPA_REPO} == "ppa:gpdb-test/db" ]; then
+  sed -i 's/Maintainer: .*/Maintainer: GPBOSH (Testing GPDB) <gpbosh@pivotal.io>/' gpdb/debian/control
+fi
+
 # Create a changelog
 GPDB_VERSION=$(gpdb/getversion --short)
 pushd gpdb
