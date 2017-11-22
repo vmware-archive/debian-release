@@ -21,16 +21,11 @@ git clone --branch ${ORCA_TAG} https://github.com/greenplum-db/gporca.git ${GPDB
 
 mv ${DEBIAN_RELEASE_DIR}/debian ${GPDB_SRC_DIR}/
 
-# adapt Maintainer to correspond to the production or test account
-if [ ${PPA_REPO} == ${TEST_PPA} ]; then
-  sed -i 's/Maintainer: .*/Maintainer: GPBOSH (Testing GPDB) <gpbosh@pivotal.io>/' ${GPDB_SRC_DIR}/debian/control
-fi
-
 # Create a changelog
 GPDB_VERSION=$(gpdb/getversion --short)
 pushd ${GPDB_SRC_DIR}
-    dch --create -M --package greenplum-db-oss -v ${GPDB_VERSION}  "${RELEASE_MESSAGE}"
-    dch -M -r "ignored message"
+    dch --create --package greenplum-db-oss -v ${GPDB_VERSION}  "${RELEASE_MESSAGE}"
+    dch -r "ignored message"
 popd
 
 tar czf greenplum-db-oss_${GPDB_VERSION}.orig.tar.gz ${GPDB_SRC_DIR}

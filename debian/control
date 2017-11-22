@@ -1,5 +1,5 @@
 Source: greenplum-db-oss
-Maintainer: gpdb team <gpdb-bosh@pivotal.io>
+Maintainer: Omitted <no-reply@example.com>
 Section: database
 Build-Depends: debhelper (>= 9),
     bison,
@@ -20,7 +20,6 @@ Build-Depends: debhelper (>= 9),
     ninja-build,
     python-dev,
     python-setuptools,
-    wget,
     zlib1g-dev
 
 Package: greenplum-db-oss
