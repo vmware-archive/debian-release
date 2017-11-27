@@ -25,7 +25,7 @@ orca:
         ninja install -C ${ORCA_BUILD_DIR_NAME}
 
 override_dh_auto_configure: orca
-	./configure --with-perl --with-python --with-libxml --with-gssapi \
+	./configure --with-perl --with-python --with-libxml --with-gssapi --enable-pxf \
         --with-libs=${DEBIAN_DESTINATION}/lib \
         --with-includes=${DEBIAN_DESTINATION}/include \
         --prefix=${DEBIAN_DESTINATION}
