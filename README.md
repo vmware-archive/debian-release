@@ -85,8 +85,7 @@ pushd gpdb
 popd
 ```
 
-NOTE: if the same source must be re-released, the way to do this is to modify the version number. A common way to re-release with new version number would be add this "-i" here:
-# dch -i
+NOTE: if the same source must be re-released, the way to do this is to modify the version number. A common way to re-release with new version number would be add this "-i" here: `dch -i`
 
 #### Create a tar ball of the source code
 ```bash
