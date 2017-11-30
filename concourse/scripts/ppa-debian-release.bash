@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-TEST_PPA="ppa:gpdb-test/db"
 DEBIAN_RELEASE_DIR="debian_release"
 GPDB_SRC_DIR="gpdb"
 
@@ -10,10 +9,7 @@ gpg --import <(echo "$GPG_PRIVATE_KEY")
 
 set -x
 
-apt-get update
-apt-get install -y debmake \
-                   equivs \
-                   git
+# depends on debmake and other tools being available already in image
 
 # Regex to capture required gporca version and download gporca source
 ORCA_TAG=$(grep -Po 'v\d+.\d+.\d+' ${GPDB_SRC_DIR}/depends/conanfile_orca.txt)
