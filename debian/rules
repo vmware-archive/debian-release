@@ -26,6 +26,7 @@ orca:
 
 override_dh_auto_configure: orca
 	./configure --with-perl --with-python --with-libxml --with-gssapi --enable-pxf \
+		--with-extra-version="-oss" \
         --with-libs=${DEBIAN_DESTINATION}/lib \
         --with-includes=${DEBIAN_DESTINATION}/include \
         --prefix=${DEBIAN_DESTINATION}
