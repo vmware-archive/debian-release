@@ -9,4 +9,4 @@ inputs:
   - name: debian-release
 
 run:
-  path: debian_release/concourse/scripts/ppa-debian-release.bash
+  path: debian-release/concourse/scripts/ppa-debian-release.bash
