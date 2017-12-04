@@ -26,7 +26,7 @@ Package: greenplum-db-oss
 Architecture: amd64
 Depends: bison,
     curl,
-    inetutils-ping,
+    iputils-ping,
     libbz2-dev,
     libcurl4-gnutls-dev,
     libreadline-dev,
