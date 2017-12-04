@@ -25,9 +25,10 @@ jobs:
   - aggregate:
     - get: gpdb
       resource: gpdb-release
-    - get: debian-release
+    - get: debian_release
+      resource: debian-release
   - task: ppa-debian-release
-    file: debian-release/concourse/tasks/ppa-debian-release.yml
+    file: debian_release/concourse/tasks/ppa-debian-release.yml
     params:
       PPA_REPO: ((ppa-repository))
       GPG_PRIVATE_KEY: ((gpg-private-key))

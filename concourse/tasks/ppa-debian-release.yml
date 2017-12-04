@@ -6,7 +6,8 @@ image_resource:
     tag: '16.04'
 inputs:
   - name: gpdb
-  - name: debian-release
+  - name: debian_release
+    resource: debian-release
 
 run:
-  path: debian-release/concourse/scripts/ppa-debian-release.bash
+  path: debian_release/concourse/scripts/ppa-debian-release.bash
