@@ -11,7 +11,7 @@ resources:
 - name: debian-release
   type: git
   source:
-    branch: pipeline-for-ppa
+    branch: master 
     uri: https://github.com/greenplum-db/debian-release.git
 
 ################################################################################
