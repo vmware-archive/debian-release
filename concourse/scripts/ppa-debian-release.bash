@@ -20,6 +20,7 @@ mv ${DEBIAN_RELEASE_DIR}/debian ${GPDB_SRC_DIR}/
 # Create a changelog
 GPDB_VERSION=$(gpdb/getversion --short)
 pushd ${GPDB_SRC_DIR}
+    echo $(git rev-parse --short HEAD) > BUILD_NUMBER
     dch --create --package greenplum-db-oss -v ${GPDB_VERSION}  "${RELEASE_MESSAGE}"
     dch -r "ignored message"
 popd
