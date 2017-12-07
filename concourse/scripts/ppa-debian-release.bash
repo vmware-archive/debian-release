@@ -4,7 +4,6 @@ set -euo pipefail
 
 DEBIAN_RELEASE_DIR="debian_release"
 GPDB_SRC_DIR="gpdb"
-GPDB_VERSION_LONG=$(${GPDB_SRC_DIR}/getversion)
 GPDB_VERSION_SHORT=$(${GPDB_SRC_DIR}/getversion --short)
 
 gpg --import <(echo "$GPG_PRIVATE_KEY")
@@ -25,6 +24,7 @@ pushd ${GPDB_SRC_DIR}
     dch --create --package greenplum-db-oss -v ${GPDB_VERSION_SHORT}  "${RELEASE_MESSAGE}"
     dch -r "ignored message"
 popd
+GPDB_VERSION_LONG=$(${GPDB_SRC_DIR}/getversion)
 
 tar czf greenplum-db-oss_${GPDB_VERSION_SHORT}.orig.tar.gz ${GPDB_SRC_DIR}
 
