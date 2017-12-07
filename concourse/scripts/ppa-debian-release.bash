@@ -4,10 +4,15 @@ set -euo pipefail
 
 DEBIAN_RELEASE_DIR="debian_release"
 GPDB_SRC_DIR="gpdb"
+GPDB_VERSION=$(${GPDB_SRC_DIR}/getversion --short)
 
 gpg --import <(echo "$GPG_PRIVATE_KEY")
 
 set -x
+
+sed -i "s/\[Greenplum Database\], \[.*\], \[support@greenplum.org\]/\[Greenplum Database\], \[${GPDB_VERSION}\], \[support@greenplum.org\]/" ${GPDB_SRC_DIR}/configure.in
+autoconf
+echo $(git rev-parse --short HEAD) > ${GPDB_SRC_DIR}/BUILD_NUMBER
 
 # depends on debmake and other tools being available already in image
 
@@ -18,7 +23,6 @@ git clone --branch ${ORCA_TAG} https://github.com/greenplum-db/gporca.git ${GPDB
 mv ${DEBIAN_RELEASE_DIR}/debian ${GPDB_SRC_DIR}/
 
 # Create a changelog
-GPDB_VERSION=$(gpdb/getversion --short)
 pushd ${GPDB_SRC_DIR}
     dch --create --package greenplum-db-oss -v ${GPDB_VERSION}  "${RELEASE_MESSAGE}"
     dch -r "ignored message"
