@@ -33,3 +33,5 @@ jobs:
       PPA_REPO: ((ppa-repository))
       GPG_PRIVATE_KEY: ((gpg-private-key))
       RELEASE_MESSAGE: ((release-message))
+      DEBFULLNAME: ((debian-package-maintainer-fullname))
+      DEBEMAIL: ((debian-package-maintainer-email))
