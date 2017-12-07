@@ -7,9 +7,6 @@ GPDB_SRC_DIR="gpdb"
 GPDB_VERSION_LONG=$(${GPDB_SRC_DIR}/getversion)
 GPDB_VERSION_SHORT=$(${GPDB_SRC_DIR}/getversion --short)
 
-echo "Greenplum short version: $GPDB_VERSION_SHORT"
-echo "Greenplum long version:  $GPDB_VERSION_LONG"
-
 gpg --import <(echo "$GPG_PRIVATE_KEY")
 
 set -x
@@ -40,3 +37,5 @@ popd
 dput ${PPA_REPO} greenplum-db-oss_${GPDB_VERSION_SHORT}_source.changes >/dev/null
 
 echo "Finished Uploading"
+echo "Greenplum short version: $GPDB_VERSION_SHORT"
+echo "Greenplum long version:  $GPDB_VERSION_LONG"
