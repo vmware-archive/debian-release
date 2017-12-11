@@ -28,6 +28,7 @@ Architecture: amd64
 Depends: bison,
     curl,
     iputils-ping,
+    less,
     libbz2-dev,
     libcurl4-gnutls-dev,
     libreadline-dev,
