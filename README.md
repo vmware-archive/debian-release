@@ -68,7 +68,7 @@ Use `debuild` utility to create greenplum debian binary
 
 ```bash
 pushd gpdb
-    debuild -us -uc -b
+    DEB_BUILD_OPTIONS='nocheck parallel=6' debuild -us -uc -b
 popd
 ```
 --------------------------------------------------------------------------------
