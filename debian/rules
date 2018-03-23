@@ -6,7 +6,6 @@ DPKG_EXPORT_BUILDFLAGS = 1
 
 # assumes that CWD is root of gpdb source
 GPDB_SRC_DIR := $(shell pwd)
-DEB_BUILD_OPTIONS += parallel=6
 VERSION := $(shell ./getversion | tr " " ".")
 PACKAGE := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2)
 
@@ -32,7 +31,7 @@ override_dh_auto_configure: orca
         --prefix=${DEBIAN_DESTINATION}
 
 %:
-	dh $@
+	dh $@ --parallel
 
 override_dh_auto_install:
 	make install
