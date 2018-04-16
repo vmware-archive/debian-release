@@ -15,16 +15,18 @@ no contribution is too small, we encourage all types of contributions.
 
 ## Debian Source and Binary Packaging
 
-This documentation assumes that you run the following commands on an Ubuntu platform, and has been tested on Xenial 16.04.
+This documentation assumes that you run the following commands on an Ubuntu platform, and has been tested on Xenial 16.04 (pivotaldata/ubuntu-gpcloud-dev:16.04).
 
 Note: This debian binary install will only copy the necessary files but does not initialize the cluster.
 
 ### Requirements
 
 ```bash
+apt-get update
 apt-get install -y software-properties-common \
                    debmake \
-                   equivs
+                   equivs \
+                   git
 ```
 
 ### Download GPDB and GPORCA sources
