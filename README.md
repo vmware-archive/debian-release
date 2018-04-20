@@ -45,7 +45,7 @@ However, we can create one using the following command.
 
 ```bash
 pushd gpdb
-    dch --create -M --package greenplum-db-oss -v <version>  "Release Message"
+    dch --create -M --package greenplum-db-oss -v SOME_VERSION_STRING  "Some Release Message"
 popd
 ```
 
