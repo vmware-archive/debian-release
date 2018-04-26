@@ -39,7 +39,7 @@ COLUMNS=2000 dpkg -l | grep '^.[iufhwt]' | while read pState package pVer pArch 
     [ -z "$licensetext" ] || break
   done
   [ -n "$license" ] || license='unknown'
-  homepage=$(apt show $package 2>/dev/null | grep Homepage | awk '{ print $2 }')
+  homepage=$(apt-cache show $package 2>/dev/null | grep Homepage | head -n 1 | awk '{ print $2 }')
   [ -n "$homepage" ] || homepage='unknown'
   printf "$format" "$pState" "${package:0:30}" "${pVer:0:30}" "${pArch:0:6}" "${pDesc:0:60}" "$homepage" "$license" "$licensetext"
 done
