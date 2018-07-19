@@ -13,6 +13,22 @@ all our current community contributors and are really interested in
 all new potential contributions. For the Greenplum Database community
 no contribution is too small, we encourage all types of contributions.
 
+## Quick Start Using Docker
+
+It only build a .deb out of latest `5X_STABLE` branch.
+
+```bash
+docker build -t debian-build:5X_STABLE .
+```
+
+The .deb package will be stored under `/tmp` directory inside the image.
+
+If you want to publish the debian package to PPA, please start the container and follow instructions from section [Debian Package in PPA](#debian-packaging-in-ppa).
+
+```bash
+docker run --rm -it debian-build:5X_STABLE bash
+```
+
 ## Debian Source and Binary Packaging
 
 This documentation assumes that you run the following commands on an Ubuntu platform, and has been tested on Xenial 16.04 (pivotaldata/ubuntu-gpcloud-dev:16.04).
