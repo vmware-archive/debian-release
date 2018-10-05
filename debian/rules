@@ -28,7 +28,8 @@ override_dh_auto_configure: orca
 		--with-extra-version="-oss" \
         --with-libs=${DEBIAN_DESTINATION}/lib \
         --with-includes=${DEBIAN_DESTINATION}/include \
-        --prefix=${DEBIAN_DESTINATION}
+        --prefix=${DEBIAN_DESTINATION} \
+        --with-ldap
 
 %:
 	dh $@ --parallel
