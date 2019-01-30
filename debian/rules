@@ -19,48 +19,60 @@ endif
 # Also, this directory is duplicated in the "debian/install" file
 DEBIAN_DESTINATION := ${GPDB_SRC_DIR}/debian/build
 ORCA_SRC := ${GPDB_SRC_DIR}/gporca
+GPXERCES_SRC := ${GPDB_SRC_DIR}/gp-xerces
 ORCA_BUILD_DIR_NAME := build
 
 include /usr/share/dpkg/default.mk
 
 orca:
-	mkdir -p ${DEBIAN_DESTINATION}
+	mkdir -p ${DEBIAN_DESTINATION}/lib
+	cd ${GPXERCES_SRC} && mkdir build && cd build && \
+	../configure --prefix=${DEBIAN_DESTINATION}/ && \
+	make && make install && \
 	cd ${ORCA_SRC} && \
-        cmake -GNinja -D CMAKE_INSTALL_PREFIX=${DEBIAN_DESTINATION} -H. -B${ORCA_BUILD_DIR_NAME} && \
+        cmake -GNinja -D CMAKE_INSTALL_PREFIX=${DEBIAN_DESTINATION} \
+                      -D XERCES_LIBRARY=${DEBIAN_DESTINATION}/lib/libxerces-c.so \
+                      -D XERCES_INCLUDE_DIR=${DEBIAN_DESTINATION}/include \
+                      -H. \
+                      -B${ORCA_BUILD_DIR_NAME} && \
         ninja install -C ${ORCA_BUILD_DIR_NAME}
 
 override_dh_auto_configure: orca
-	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi --enable-pxf \
-		--with-extra-version="-oss" \
-        --with-libs=${DEBIAN_DESTINATION}/lib \
-        --with-includes=${DEBIAN_DESTINATION}/include \
-        --prefix=${DEBIAN_DESTINATION} \
-        --with-ldap \
-        ${EXTRA_CONFIGURE_FLAGS}
-
+	./configure --prefix=${DEBIAN_DESTINATION} \
+		    --enable-mapreduce \
+		    --enable-pxf \
+		    --with-gssapi \
+		    --with-ldap \
+		    --with-libxml \
+		    --with-perl \
+		    --with-python \
+		    --with-extra-version="-oss" \
+		    --with-includes=${DEBIAN_DESTINATION}/include \
+		    --with-libs=${DEBIAN_DESTINATION}/lib \
+		    ${EXTRA_CONFIGURE_FLAGS}
 %:
 	dh $@ --parallel
 
 override_dh_auto_install:
 	make install
-	# the staging directory for creating a debian is NOT the right GPHOME.
-	# change GPHOME to point to the post-install target install directory.
+        # the staging directory for creating a debian is NOT the right GPHOME.
+        # change GPHOME to point to the post-install target install directory.
 	sed -i "s#GPHOME=.*#GPHOME=/opt/gpdb#g" ${DEBIAN_DESTINATION}/greenplum_path.sh
-	# remove bundled python from open-source package
+        # remove bundled python from open-source package
 	rm -rf ${DEBIAN_DESTINATION}/lib/python/Crypto
 	rm -rf ${DEBIAN_DESTINATION}/lib/python/lockfile
 	rm -rf ${DEBIAN_DESTINATION}/lib/python/paramiko
 	rm -rf ${DEBIAN_DESTINATION}/lib/python/psutil
 	rm -rf ${DEBIAN_DESTINATION}/lib/python/yaml
-	# Remove fault injector and other packages
+        # Remove fault injector and other packages
 	while read file; do\
-      if [ -f "${DEBIAN_DESTINATION}/$${file}" ]; then\
-        echo "Deleting: ${DEBIAN_DESTINATION}/$${file}"; \
-        rm "${DEBIAN_DESTINATION}/$${file}"; \
-      else\
-        echo "File $${file} does not exist. Skipping." ; \
-      fi;\
-    done < ${GPDB_SRC_DIR}/gpAux/releng/NON_PRODUCTION_FILES.txt
+          if [ -f "${DEBIAN_DESTINATION}/$${file}" ]; then\
+            echo "Deleting: ${DEBIAN_DESTINATION}/$${file}"; \
+            rm "${DEBIAN_DESTINATION}/$${file}"; \
+          else\
+            echo "File $${file} does not exist. Skipping." ; \
+          fi;\
+        done < ${GPDB_SRC_DIR}/gpAux/releng/NON_PRODUCTION_FILES.txt
 
 
 # since we need orca to build before configuring, and configuring happens before dh_auto_clean,

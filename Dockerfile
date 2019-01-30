@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM eespino/ubuntu:18.04
 
 RUN apt-get update && \
     apt-get install -y software-properties-common \
@@ -8,20 +8,20 @@ RUN apt-get update && \
 
 WORKDIR /tmp
 
-RUN git clone https://github.com/greenplum-db/gpdb.git && \
+RUN git clone --branch 5X_STABLE https://github.com/greenplum-db/gpdb.git && \
     git clone https://github.com/greenplum-db/debian-release.git && \
-    git clone https://github.com/greenplum-db/gporca.git gpdb/gporca
+    git clone --branch v3.23.0   https://github.com/greenplum-db/gporca.git gpdb/gporca && \
+    git clone --branch v3.1.2-p1 https://github.com/greenplum-db/gp-xerces.git gpdb/gp-xerces
 
 COPY ./debian/ /tmp/gpdb/debian/
 
 WORKDIR /tmp/gpdb
 
-RUN git checkout "5X_STABLE"
+RUN . /etc/os-release && dch --create -M --package gpdb-oss -v $(./getversion --short)-ubuntu-${VERSION_ID} "Test release" --distribution ${VERSION_CODENAME} && \
+    yes | mk-build-deps -i debian/control
 
-RUN dch --create -M --package greenplum-db-oss -v $(./getversion --short) "Test release" && \
-    yes | mk-build-deps -i debian/control && \
-	DEB_BUILD_OPTIONS='nocheck parallel=6' debuild -us -uc -b
+RUN DEB_BUILD_OPTIONS='nocheck parallel=6' debuild -us -uc -b
 
-RUN echo The debian package is at /tmp/greenplum-db-oss_$(./getversion --short).build.dev_amd64.deb
+RUN echo The debian package is at /tmp/gpdb-oss_$(./getversion --short).build.dev_amd64.deb
 
 WORKDIR /tmp
