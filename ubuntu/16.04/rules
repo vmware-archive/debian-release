@@ -71,8 +71,7 @@ override_dh_auto_clean:
 	echo "Skipping clean"
 
 override_dh_gencontrol:
-	echo "using version ${GPDB_VERSION} for binary"
-	dpkg-gencontrol -v${GPDB_VERSION} -Pdebian/${PACKAGE}
+	echo "Skipping override_dh_gencontrol"
 
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
