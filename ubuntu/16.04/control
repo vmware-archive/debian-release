@@ -27,8 +27,7 @@ Build-Depends: debhelper (>= 9),
 
 Package: greenplum-db-oss
 Architecture: amd64
-Depends: bison,
-    curl,
+Depends: curl,
     iputils-ping,
     less,
     libapr1,
