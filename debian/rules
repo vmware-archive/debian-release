@@ -10,9 +10,14 @@ GPDB_VERSION := $(shell ./getversion | tr " " ".")
 PACKAGE := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2)
 
 IS_GPDB6 := $(shell expr ${GPDB_VERSION} : "\(^6\.[0-9]\+\.[0-9]\+\)")
+IS_GPDB7 := $(shell expr ${GPDB_VERSION} : "\(^7\.[0-9]\+\.[0-9]\+\)")
+
+ifdef IS_GPDB7
+        EXTRA_CONFIGURE_FLAGS := --without-zstd
+endif
 
 ifdef IS_GPDB6
-	EXTRA_CONFIGURE_FLAGS := --without-zstd
+        EXTRA_CONFIGURE_FLAGS := --without-zstd
 endif
 
 # This destination should NOT be debian/tmp, where certain packaging info stored and erased via dh_prep
