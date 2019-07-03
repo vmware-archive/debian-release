@@ -1,4 +1,4 @@
-Source: greenplum-db-oss
+Source: greenplum-database
 Maintainer: Omitted <no-reply@example.com>
 Section: database
 Build-Depends: debhelper (>= 9),
@@ -25,7 +25,7 @@ Build-Depends: debhelper (>= 9),
     python-setuptools,
     zlib1g-dev
 
-Package: greenplum-db-oss
+Package: greenplum-database
 Architecture: amd64
 Depends: bison,
     curl,

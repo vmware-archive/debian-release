@@ -61,7 +61,7 @@ However, we can create one using the following command.
 
 ```bash
 pushd gpdb
-    dch --create -M --package greenplum-db-oss -v SOME_VERSION_STRING  "Some Release Message"
+    dch --create -M --package greenplum-database -v SOME_VERSION_STRING  "Some Release Message"
 popd
 ```
 
@@ -147,7 +147,7 @@ apt-get update
 apt-get install -y software-properties-common
 add-apt-repository ppa:greenplum/db
 apt-get update
-apt-get install -y greenplum-db-oss
+apt-get install -y greenplum-database
 
 source /opt/gpdb/greenplum-path.sh
 echo $GPHOME
@@ -165,6 +165,6 @@ apt-get update
 apt-get install -y software-properties-common
 add-apt-repository -s ppa:greenplum/db
 apt-get update
-apt-get install -y greenplum-db-oss
+apt-get install -y greenplum-database
 ls greenplum*
 ```
