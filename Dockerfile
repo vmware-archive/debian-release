@@ -10,13 +10,15 @@ WORKDIR /tmp
 
 RUN git clone https://github.com/greenplum-db/gpdb.git && \
     git clone https://github.com/greenplum-db/debian-release.git && \
-    git clone https://github.com/greenplum-db/gporca.git gpdb/gporca
+    git clone https://github.com/greenplum-db/gporca.git gpdb/gporca && \
+    git clone https://github.com/facebook/zstd.git gpdb/gpzstd
 
 COPY ./debian/ /tmp/gpdb/debian/
 
 WORKDIR /tmp/gpdb
 
-RUN git checkout "5X_STABLE"
+RUN git checkout "6X_STABLE" && \
+    cd gpzstd && git checkout v1.3.7
 
 RUN dch --create -M --package greenplum-database -v $(./getversion --short) "Test release" && \
     yes | mk-build-deps -i debian/control && \

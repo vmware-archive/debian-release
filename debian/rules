@@ -12,21 +12,19 @@ PACKAGE := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2)
 IS_GPDB6 := $(shell expr ${GPDB_VERSION} : "\(^6\.[0-9]\+\.[0-9]\+\)")
 IS_GPDB7 := $(shell expr ${GPDB_VERSION} : "\(^7\.[0-9]\+\.[0-9]\+\)")
 
-ifdef IS_GPDB7
-        EXTRA_CONFIGURE_FLAGS := --without-zstd
-endif
-
-ifdef IS_GPDB6
-        EXTRA_CONFIGURE_FLAGS := --without-zstd
-endif
-
 # This destination should NOT be debian/tmp, where certain packaging info stored and erased via dh_prep
 # Also, this directory is duplicated in the "debian/install" file
 DEBIAN_DESTINATION := ${GPDB_SRC_DIR}/debian/build
 ORCA_SRC := ${GPDB_SRC_DIR}/gporca
+ZSTD_SRC := ${GPDB_SRC_DIR}/gpzstd
 ORCA_BUILD_DIR_NAME := build
 
 include /usr/share/dpkg/default.mk
+
+zstd:
+	mkdir -p ${DEBIAN_DESTINATION}
+	cd ${ZSTD_SRC} && \
+    make -j 4 install -C lib prefix=${DEBIAN_DESTINATION}
 
 orca:
 	mkdir -p ${DEBIAN_DESTINATION}
@@ -34,14 +32,14 @@ orca:
         cmake -GNinja -D CMAKE_INSTALL_PREFIX=${DEBIAN_DESTINATION} -H. -B${ORCA_BUILD_DIR_NAME} && \
         ninja install -C ${ORCA_BUILD_DIR_NAME}
 
-override_dh_auto_configure: orca
+override_dh_auto_configure: orca zstd
 	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi --enable-pxf \
 		--with-extra-version="-oss" \
         --with-libs=${DEBIAN_DESTINATION}/lib \
         --with-includes=${DEBIAN_DESTINATION}/include \
         --prefix=${DEBIAN_DESTINATION} \
         --with-ldap \
-        ${EXTRA_CONFIGURE_FLAGS}
+        --with-zstd
 
 %:
 	dh $@ --parallel
