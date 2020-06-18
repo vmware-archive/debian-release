@@ -18,10 +18,10 @@ WORKDIR /tmp/gpdb
 
 RUN git checkout "5X_STABLE"
 
-RUN dch --create -M --package greenplum-db-oss -v $(./getversion --short) "Test release" && \
+RUN dch --create -M --package greenplum-db-5 -v $(./getversion --short) "Test release" && \
     yes | mk-build-deps -i debian/control && \
 	DEB_BUILD_OPTIONS='nocheck parallel=6' debuild -us -uc -b
 
-RUN echo The debian package is at /tmp/greenplum-db-oss_$(./getversion --short).build.dev_amd64.deb
+RUN echo The debian package is at /tmp/greenplum-db-5_$(./getversion --short).build.dev_amd64.deb
 
 WORKDIR /tmp
