@@ -35,7 +35,7 @@ orca:
         ninja install -C ${ORCA_BUILD_DIR_NAME}
 
 override_dh_auto_configure: orca
-	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi --enable-pxf \
+	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
 		--with-extra-version="-oss" \
         --with-libs=${DEBIAN_DESTINATION}/lib \
         --with-includes=${DEBIAN_DESTINATION}/include \
