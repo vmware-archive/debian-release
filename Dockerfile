@@ -9,7 +9,6 @@ RUN apt-get update && \
 WORKDIR /tmp
 
 RUN git clone https://github.com/greenplum-db/gpdb.git && \
-    git clone https://github.com/greenplum-db/debian-release.git && \
     git clone https://github.com/greenplum-db/gporca.git gpdb/gporca
 
 COPY ./debian/ /tmp/gpdb/debian/
